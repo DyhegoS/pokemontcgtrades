@@ -1,5 +1,8 @@
 package com.reginasofts.pokemontcgtrades.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,8 +17,9 @@ public class Deck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int quantityCards = 60;
-    
+
+    private List<Card> cards = new ArrayList<>();
+
     public Deck(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -37,12 +41,12 @@ public class Deck {
         this.name = name;
     }
 
-    public int getQuantityCards() {
-        return quantityCards;
+    public List<Card> getCards() {
+        return cards;
     }
 
-    public void setQuantityCards(int quantityCards) {
-        this.quantityCards = quantityCards;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     
