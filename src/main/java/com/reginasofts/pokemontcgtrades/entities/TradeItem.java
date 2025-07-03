@@ -1,5 +1,10 @@
 package com.reginasofts.pokemontcgtrades.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_trade_item")
 public class TradeItem {
     private Card card;
 
