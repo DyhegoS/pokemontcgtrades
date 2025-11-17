@@ -38,6 +38,9 @@ public class Card {
     @ManyToMany(mappedBy = "cards")
     private List<Deck> decks = new ArrayList<>();
     
+    public Card() {
+    }
+    
     public Card(Long id, String name, String type, String stage, Integer hp, String img, Set<Attacks> attacks, String ability) {
         this.id = id;
         this.name = name;
@@ -48,8 +51,16 @@ public class Card {
         this.attacks = attacks;
         this.ability = ability;
     }
+    
+    public Long getId() {
+		return id;
+	}
 
-    public String getName() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
         return name;
     }
 
