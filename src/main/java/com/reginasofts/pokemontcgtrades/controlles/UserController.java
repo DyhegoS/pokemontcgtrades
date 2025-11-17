@@ -20,6 +20,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	 @PreAuthorize("hasRole('ROLE_ADMIN')")
 	 @GetMapping
 	    public ResponseEntity<Page<UserDTO>> findAll(
 	        @RequestParam(name = "username", defaultValue = "") String username,
@@ -28,7 +29,7 @@ public class UserController {
 	        return ResponseEntity.ok(dto);
 	    }
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(value = "/me")
 	public ResponseEntity<UserDTO> getMe(){
 		UserDTO dto = userService.getMe();

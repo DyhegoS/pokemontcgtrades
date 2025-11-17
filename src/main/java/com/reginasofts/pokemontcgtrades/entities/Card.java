@@ -1,13 +1,17 @@
 package com.reginasofts.pokemontcgtrades.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -19,22 +23,29 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String type;
     private String stage;
     private Integer hp;
     private String img;
-    private List<String> attack;
+    
+    @ManyToMany
+    @JoinTable(name = "tb_card_attack",
+    		joinColumns = @JoinColumn(name = "card_id"),
+    		inverseJoinColumns = @JoinColumn(name = "attack_id"))
+    private Set<Attacks> attacks = new HashSet<>();
     private String ability;
     
     @ManyToMany(mappedBy = "cards")
     private List<Deck> decks = new ArrayList<>();
     
-    public Card(Long id, String name, String stage, Integer hp, String img, List<String> attack, String ability) {
+    public Card(Long id, String name, String type, String stage, Integer hp, String img, Set<Attacks> attacks, String ability) {
         this.id = id;
         this.name = name;
+        this.type = type;
         this.stage = stage;
         this.hp = hp;
         this.img = img;
-        this.attack = attack;
+        this.attacks = attacks;
         this.ability = ability;
     }
 
@@ -46,7 +57,15 @@ public class Card {
         this.name = name;
     }
 
-    public String getStage() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getStage() {
         return stage;
     }
 
@@ -70,12 +89,8 @@ public class Card {
         this.img = img;
     }
 
-    public List<String> getAttack() {
-        return attack;
-    }
-
-    public void setAttack(List<String> attack) {
-        this.attack = attack;
+    public Set<Attacks> getAttack() {
+        return attacks;
     }
 
     public String getAbility() {

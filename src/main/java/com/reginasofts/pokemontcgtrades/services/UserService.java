@@ -2,6 +2,7 @@ package com.reginasofts.pokemontcgtrades.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -22,12 +23,13 @@ import com.reginasofts.pokemontcgtrades.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService{
 	
+	@Autowired
 	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		List<UserDetailsProjection> result = userRepository.searchUserAndRoles(username);
+		List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
 		if(result.size() == 0) {
 			throw new UsernameNotFoundException("usuário não encontrado");
 		}
@@ -47,7 +49,7 @@ public class UserService implements UserDetailsService{
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
 			String username = jwtPrincipal.getClaim("username");
-			return userRepository.findByEmail(username);
+			return userRepository.findByEmail(username).get();
 		}
 		catch(Exception e){
 			throw new UsernameNotFoundException("User not found");
@@ -60,6 +62,7 @@ public class UserService implements UserDetailsService{
 		return new UserDTO(user);
 	}
 
+	@Transactional
 	public Page<UserDTO> findAll(String name, Pageable pageable) {
 		Page<User> result = userRepository.searchByName(name, pageable);
         return result.map(x -> new UserDTO(x));
