@@ -16,7 +16,7 @@ Consiste em uma aplicação que realiza além da criação, leitura, atualizaç�
 - JWT
 
 # ▶️ Como executar o projeto
-**Pré-requisitos: Java 17**
+**Pré-requisitos: Java 21**
 
 ## Clonar o repositório
 ```bash
